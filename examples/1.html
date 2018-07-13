@@ -1,0 +1,21 @@
+<div class="card" id="example1">
+    <div class="card-header">
+        # Example 1
+    </div>
+    <div class="card-body">
+        <p class="card-text">Basic navajax call</p>
+        <code>$('.content').navajax('test.html');</code>
+        <a href="#" class="btn btn-primary">Go somewhere</a>
+    </div>
+    <div class="card-footer">
+
+    </div>
+</div>
+<script type="text/javascript">
+    $('#example1').ready(function () {
+        var $this = $(this);
+        $this.find('.btn-load').click(function () {
+            eval($this.find('code').text());
+        });
+    });
+</script>
