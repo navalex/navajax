@@ -2,7 +2,7 @@
     $.fn.navajax = function(url, options, successFn) {
 
         var settings = $.extend({
-            method: 'POST',
+            method: 'GET',
             data: {},
             append: true,
             object: $(this),
