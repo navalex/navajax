@@ -1,31 +1,46 @@
 (function($){
-    $.navajax = function(options) {
+    $.fn.navajax = function(url, options, successFn) {
 
         var settings = $.extend({
             method: 'POST',
-            url: '',
             data: {},
+            append: true,
+            object: $(this),
+
             debug_mode: false
         }, options||{} );
 
-        var navajax_debug = function(msg) {
+        var navalog = function(msg) {
             if (settings.debug_mode)
-                console.debug("[navajax debug] " + msg);
+                console.log("[navajax] " + msg);
+        };
+        var navadebug = function(msg) {
+            if (settings.debug_mode)
+                console.error("[navajax] " + msg);
         };
 
+        navalog("Request called to " + url);
         $.ajax({
             method: settings.method,
-            url: settings.url,
+            url: url,
             data: settings.data,
             success: function (data, textStatus, xhr) {
-                navajax_debug(data);
-                navajax_debug(textStatus);
-                navajax_debug(xhr);
+                navalog("Request success");
+                navalog("Content: " + data);
+                var domData = $.parseHTML(data);
+                if (settings.append) {
+                    $(domData).css('display', 'none');
+                    settings.object.append(domData);
+                    $(domData).fadeIn();
+                }
+                if (successFn)
+                    successFn(domData);
             },
             error: function (xhr, textStatus, error) {
-                navajax_debug(xhr);
-                navajax_debug(textStatus);
-                navajax_debug(error);
+                navadebug("Request failure");
+                navadebug(xhr);
+                navadebug(textStatus);
+                navadebug(error);
             }
         });
     }

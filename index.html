@@ -7,18 +7,81 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Navajax - Easy Ajax Content</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.2/css/bootstrap.min.css" integrity="sha384-Smlep5jCw/wG7hdkwQ/Z5nLIefveQRIY9nfy6xoR1uRYBtpZgI6339F5dgvm/e9B" crossorigin="anonymous">
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/default.min.css">
+    <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.2/js/bootstrap.min.js" integrity="sha384-o+RDsa0aLu++PJvFqy8fFScvbHFLtbvScb8AjopnFD+iEQ7wo/CG0xlczd+2O/em" crossorigin="anonymous"></script>
+    <script src="jquery.navajax.js"></script>
 </head>
 <body>
-    <h1>Welcome to Navajax</h1>
+    <div class="container">
+        <div class="jumbotron">
+            <h1>Welcome to Navajax</h1>
+            <p>Here there is some navajax call exemple for use.</p>
+            <p>Enjoy !</p>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="card card-executor" id="example1">
+                        <div class="card-header">
+                            # Example 1
+                        </div>
+                        <div class="card-body">
+                            <p class="card-text">Basic navajax call</p>
+                            <pre>
+                                <code class="javascript">$('#content').navajax('test.html');</code>
+                            </pre>
+                            <button class="btn btn-primary btn-load">Load !</button>
+                        </div>
+                        <div class="card-footer">
+
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="card card-executor" id="example2">
+                        <div class="card-header">
+                            # Example 2
+                        </div>
+                        <div class="card-body">
+                            <p class="card-text">Basic navajax call with callback</p>
+<pre>
+<code class="javascript">
+$('#content').navajax('test.html', {}, function() {
+    alert('Loaded');
+});
+</code>
+</pre>
+                            <button class="btn btn-primary btn-load">Load !</button>
+                        </div>
+                        <div class="card-footer">
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="content row"></div>
+    </div>
 </body>
 
-<script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.2/js/bootstrap.min.js" integrity="sha384-o+RDsa0aLu++PJvFqy8fFScvbHFLtbvScb8AjopnFD+iEQ7wo/CG0xlczd+2O/em" crossorigin="anonymous"></script>
-<script src="jquery.navajax.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+
 <script type="text/javascript">
     $(document).ready(function () {
-        $.navajax({debug_mode: true});
+        $('.card-executor').each(function () {
+            var $this = $(this);
+            var $code = $(this).find('code').text();
+            var $codeContent = '#' + $this.attr('id') + ' .card-footer';
+
+            $code = $code.replace('#content', $codeContent);
+
+            $this.find('.btn-load').click(function () {
+                $($codeContent).slideUp(200).empty().slideDown(200, function () {
+                    eval($code);
+                });
+            });
+        });
     });
 </script>
 </html>
