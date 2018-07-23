@@ -3,9 +3,11 @@
 
         var settings = $.extend({
             method: 'GET',
+            type: 'html',
             data: {},
             append: true,
             object: $(this),
+            selector: undefined,
 
             debug_mode: false
         }, options||{} );

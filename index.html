@@ -28,9 +28,7 @@
                         </div>
                         <div class="card-body">
                             <p class="card-text">Basic navajax call</p>
-                            <pre>
-                                <code class="javascript">$('#content').navajax('test.html');</code>
-                            </pre>
+                            <pre data-navajax="examples/1.html"></pre>
                             <button class="btn btn-primary btn-load">Load !</button>
                         </div>
                         <div class="card-footer">
@@ -45,13 +43,7 @@
                         </div>
                         <div class="card-body">
                             <p class="card-text">Basic navajax call with callback</p>
-<pre>
-<code class="javascript">
-$('#content').navajax('test.html', {}, function() {
-    alert('Loaded');
-});
-</code>
-</pre>
+                                <pre data-navajax="examples/2.html"></pre>
                             <button class="btn btn-primary btn-load">Load !</button>
                         </div>
                         <div class="card-footer">
@@ -68,7 +60,11 @@ $('#content').navajax('test.html', {}, function() {
 <script>hljs.initHighlightingOnLoad();</script>
 
 <script type="text/javascript">
-    $(document).ready(function () {
+    var execNavajax = function() {
+        $('pre code').each(function(i, block) {
+            hljs.highlightBlock(block);
+        });
+
         $('.card-executor').each(function () {
             var $this = $(this);
             var $code = $(this).find('code').text();
@@ -76,10 +72,26 @@ $('#content').navajax('test.html', {}, function() {
 
             $code = $code.replace('#content', $codeContent);
 
+            $this.addClass('calling');
             $this.find('.btn-load').click(function () {
                 $($codeContent).slideUp(200).empty().slideDown(200, function () {
                     eval($code);
                 });
+            });
+        });
+    };
+    $(document).ready(function () {
+        var dataN = '[data-navajax]'
+        var navajaxNb = $(dataN).length;
+
+        $(dataN).each(function () {
+            var $url = $(this).data('navajax');
+
+            $(this).navajax($url, {}, function (data) {
+                navajaxNb--;
+                if (navajaxNb == 0) {
+                    execNavajax();
+                }
             });
         });
     });
